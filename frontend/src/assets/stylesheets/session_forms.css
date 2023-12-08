@@ -1,0 +1,100 @@
+
+  
+  body {
+    font-size: 16px; /* Base font size */
+    font-family: "Pretendard Regular";
+  }
+  
+
+.session-form-container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 50vw;
+    min-width: 400px;
+}
+
+.session-form{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+    height: 85vh;
+    max-height: 450px;
+}
+
+/* Ensuring all text in session-form uses Arial and has a consistent color */
+.session-form *{
+        color: var(--black);
+    font-size: 1rem; /* Relative font size */
+}
+
+.session-form > h2{
+    font-weight: 400;
+    font-size: 1.5rem; /* Slightly larger for headings */
+}
+
+label{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+
+
+.login-link {
+    color: #007bff; /* Example color */
+    text-decoration: none; /* Removes underline from link */
+    font-size: 16px; /* Example font size */
+    padding: 10px;
+}
+
+
+label > input[type=text], label > input{
+    padding: 5px;
+    padding-left: 2px;
+    border: .5px solid rgba(186, 186, 186, 0.814);
+    border-radius: 2px;
+    font-size: 1rem; /* Consistent font size */
+    gap: 10px; 
+}
+
+
+
+
+label span{
+    font-size: .75rem;
+    margin-bottom: .25rem;
+}
+
+.session-form > input[type=submit]{
+    background-color: #007bff;
+    width: 90%;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    margin-top: .25rem;
+    border-radius: 2px;
+    font-size: 1rem; /* Consistent font size */
+}
+
+/* Hover and active states for submit button */
+.session-form > input[type=submit]:hover{
+    box-shadow: 0px 0px 2px rgba(12,1,1,0.6);
+}
+.session-form > input[type=submit]:active{
+    box-shadow: inset 0px 0px 8px rgba(12,1,1,0.5);
+}
+
+.errors{
+    color: red;
+    font-size: .8rem;
+}
+
+form.login {
+    height: 40vh;
+}
+
