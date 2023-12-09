@@ -24,7 +24,7 @@ import("p-queue").then((PQueueModule) => {
       try {
         let { chatId, formData, user } = data;
 
-        const bodyData = JSON.parse(formData)
+        const bodyData = JSON.parse(formData);
 
         const chat = await Chat.findOne({
           _id: chatId,
@@ -33,10 +33,13 @@ import("p-queue").then((PQueueModule) => {
         const chatBot = await ChatBot.findOne({ _id: chat.chatBot._id });
 
         const text = bodyData.text;
+
+        // Pass the socket.id (clientSocketId) to getAiResponse
         const textResponse = await getAiResponse(
           chatBot,
           chat,
-          bodyData.text
+          bodyData.text,
+          socket.id  // Pass the client's socket ID here
         );
 
         const formattedMessage = { role: "user", content: text };
@@ -46,8 +49,6 @@ import("p-queue").then((PQueueModule) => {
           formattedMessage,
           textResponse
         ];
-
-        console.log("chat.messages", chat.messages);
 
         const updatedChat = await chat.save();
         socket.emit("chat-updated", updatedChat);
