@@ -63,9 +63,12 @@ router.get('/:id', requireUser, async (req, res, next) => {
 
     if (!chat) {
       // If no existing chat, create a new chat
+      const welcomeMessage = { role: 'assistant', content: "안녕하세요 AFG 안녕하세요! 👋 저는 AFG AI, 여러분의 업무와 회사 생활에 대한 질문에 답해드릴 인공지능 비서입니다. 🤖 어센틱금융그룹의 필드 매니저님들께 도움이 되고자 항상 준비되어 있어요. 근무시간, 프로젝트 관리, 회사 정책, 또는 일상의 소소한 궁금증까지, 어떤 질문이든 편하게 물어보세요! 📚💼 제가 여러분의 든든한 파트너가 되어 드리겠습니다. 함께 성장해 나가요! 🚀!" };
+
       chat = new Chat({
         chatBot: chatbot._id,
         author: req.user._id,
+        messages: [welcomeMessage]
         // Add other necessary fields if required
       });
       await chat.save();

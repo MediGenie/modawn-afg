@@ -116,25 +116,7 @@ router.get('/', requireUser, async (req, res, next) => {
   
 });
 
-router.post('/', requireUser, async (req, res) => {
-  const chatBot = await ChatBot.findOne({_id: req.body.chatBotId})
-  try {
-      const newChat = new Chat ({
-    author: req.user,
-    chatBot: chatBot,
-    messages: []
-  });
 
-  const chat = await newChat.save();
-  return res.json(chat);
-
-  }catch(err){
-    const error = new Error('Chatbot not found');
-    error.statusCode = 404;
-    error.errors = { message: "No chatbot found with that id" };
-    return next(error);
-  }
-});
 
 
 
