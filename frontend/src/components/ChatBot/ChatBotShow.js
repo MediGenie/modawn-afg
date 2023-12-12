@@ -150,13 +150,13 @@ useEffect(() => {
               <div className='chatbot-show-box'>
                 <ul>
                   {chat?.messages?.map((mess, i)=>{
-                    
+                     const messWithURL = chat?.messagesWithURL?.[i-1];
                     return (
                       <div key={i}>
                         {mess.role === 'assistant' 
                           ? <div className='chatbot-show-message-detail'> 
                               <img className='chatbot-show-img-small' src={bot?.profileImageUrl} alt={bot?.name} />
-                              <h1>{bot?.name}</h1>
+                             <h1>{bot?.name}</h1>
                             </div>
                           : <div className='chatbot-show-message-detail'> 
                               <img className='chatbot-show-img-small' src={sessionUser?.profileImageUrl} alt={sessionUser?.name} />
@@ -164,11 +164,54 @@ useEffect(() => {
                             </div>
                         }
                         {mess.content.split('\n').map((message, j) => {
-                          return <h2 key={j}>{message}</h2>
-                        })}
-                  
 
-                      </div>
+// Functions to determine if the URL is an image or a PDF
+const isImageUrl = (urls) => /\.(jpg|jpeg|png|gif)$/i.test(urls);
+const isPdfUrl = (urls) => /\.pdf$/i.test(urls);
+
+const getYoutubeVideoId = (url) => {
+  const regExp = /^.*(youtu\.be\/|v\/|e\/|u\/\w+\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+const isYoutubeUrl = (url) => {
+  return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/i.test(url);
+};
+
+
+
+
+return (
+    <>
+        <h2 key={j}>{message}</h2>
+        {/* Check and render Image, PDF link, or YouTube video after the message */}
+        {j === mess.content.split("\n").length - 1 && (
+            <>
+                {messWithURL?.urls && isImageUrl(messWithURL.urls) && (
+                    <img src={messWithURL.urls} alt="Image" style={{ maxWidth: '100%', height: 'auto', borderRadius: '10px', display: 'block', margin: '0 auto' }} />
+                )}
+                {messWithURL?.urls && isPdfUrl(messWithURL.urls) && (
+                    <a href={messWithURL.urls} download target="_blank" rel="noopener noreferrer" style={{ fontWeight: 'bold' }}>
+                        참고 자료 보기
+                    </a>
+                )}
+                {messWithURL?.urls && isYoutubeUrl(messWithURL.urls) && (
+                  <iframe
+                      width="100%"
+                      height="315"
+                      src={`https://www.youtube.com/embed/${getYoutubeVideoId(messWithURL.urls)}`}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Embedded YouTube"
+                      style={{ borderRadius: '10px', display: 'block', margin: '10px auto' }}
+                  ></iframe>
+              )}
+            </>
+        )}
+    </>
+);
+})}
+</div>
                     );
                   })}
                   {response &&<div className="chatbot-show-response">

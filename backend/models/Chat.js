@@ -13,6 +13,9 @@ const chatSchema = Schema({
   messages: {
     type: [Object],
     required: true
+  },messagesWithURL: {
+    type: [Object],
+    required: true
   }
 }, {
   timestamps: true

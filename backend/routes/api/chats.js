@@ -43,12 +43,26 @@ import("p-queue").then((PQueueModule) => {
         );
 
         const formattedMessage = { role: "user", content: text };
+        
+        const textResponseWithURL = { ...textResponse };
 
-        chat.messages = [
-          ...chat.messages,
-          formattedMessage,
-          textResponse
-        ];
+          // Remove the URL from the original textResponse if it exists
+          if ('urls' in textResponse) {
+              delete textResponse.urls;
+          }
+
+          chat.messages = [
+            ...chat.messages,
+            formattedMessage,
+            textResponse
+          ];
+
+          // textResponseWithURL still has the URL, use it in chat.messagesWithURL
+          chat.messagesWithURL = [
+            ...chat.messagesWithURL,
+            formattedMessage,
+            textResponseWithURL
+          ];
 
         const updatedChat = await chat.save();
         socket.emit("chat-updated", updatedChat);
